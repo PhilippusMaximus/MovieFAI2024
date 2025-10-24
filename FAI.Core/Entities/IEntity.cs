@@ -8,6 +8,6 @@ namespace FAI.Core.Entities
 {
     public interface IEntity
     {
-        public interface IEntity { }
+        //public interface IEntity { }
     }
 }

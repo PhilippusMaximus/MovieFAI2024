@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FAI.Common\FAI.Common.csproj" />
     <ProjectReference Include="..\FAI.Core\FAI.Core.csproj" />
     <ProjectReference Include="..\FAI.Persistence\FAI.Persistence.csproj" />

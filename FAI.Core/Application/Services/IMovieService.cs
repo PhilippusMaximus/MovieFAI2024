@@ -38,7 +38,7 @@ namespace FAI.Core.Application.Services
         Task<MovieDto> UpdateMovieDto(MovieDto movieDto, CancellationToken cancellationToken);
         
         // delete a movie entry by its unique identifier
-        Task DeleteMovieAsync(Guid id, CancellationToken cancellationToken);
+        Task DeleteMovie(Guid id, CancellationToken cancellationToken);
         #endregion
     }
 }

@@ -116,6 +116,7 @@ namespace FAI.Application.Services
                 Title = "N/A",
                 Price = 0M,
                 ReleaseDate = DateTime.Now.Date,
+                GenreId = 1,           // Default GenreId "Action"
                 MediumTypeCode = "BD", // Default MediumType "Blu-ray"
             };
 
@@ -145,7 +146,7 @@ namespace FAI.Application.Services
             return MovieDto.MapFrom(updatedMovie);
         }
 
-        public async Task DeleteMovieAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task DeleteMovie(Guid id, CancellationToken cancellationToken = default)
         {
             // Movie Objekt anhand der Id löschen
             await this.movieRepository.RemoveByKeyAsync<Movie>(id, saveImmediately: true, cancellationToken);

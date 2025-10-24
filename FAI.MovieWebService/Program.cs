@@ -1,7 +1,11 @@
-using FAI.Persistence.Repositories.DBContext;
-using Microsoft.EntityFrameworkCore;
-using FAI.Persistence.Extensions;
+using FAI.Application.Authentication;
 using FAI.Application.Extensions;
+using FAI.Common.Services;
+using FAI.Persistence.Extensions;
+using FAI.Persistence.Repositories.DBContext;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace FAI.MovieWebService
 {
@@ -29,6 +33,30 @@ namespace FAI.MovieWebService
                         Email = "philipp@rheinberger-it.at"
                     }
                 });
+
+                g.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authentictation header using basic scheme"
+                });
+
+                g.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "basic"
+                            }
+                        },
+                        new string []{}
+                    }
+                });
             });
 
             // MovieDbContext konfigurieren
@@ -40,7 +68,14 @@ namespace FAI.MovieWebService
 
             // Registrieren der Repositories und Services via Reflection
             builder.Services.RegisterRepositories();
+
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.RegisterServices();
+
+            // Basic Authentication konfigurieren
+            builder.Services.AddAuthentication(nameof(BasicAuthenticationHandler))
+                            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(nameof(BasicAuthenticationHandler), null);
+
 
             // Anwendung wird erstellt
             var app = builder.Build();
@@ -56,6 +91,7 @@ namespace FAI.MovieWebService
             
             // 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
