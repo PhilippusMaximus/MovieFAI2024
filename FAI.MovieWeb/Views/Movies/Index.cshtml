@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MovieDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    @* wird auch im HTML ausgeklammert *@
+    @* <a asp-action="Create">@BasicRes.New</a> *@
+    <a href="/Movies/Create" title="@BasicRes.New">@BasicRes.New</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @BasicRes.Genre
+            </th>
+            <th>
+                @BasicRes.MediumType
+            </th>
+            <th>
+                @BasicRes.Title
+            </th>
+            <th>
+                @BasicRes.Price
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GenreName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MediumTypeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @* <a asp-action="Edit" asp-route-id="@item.Id">@BasicRes.Edit</a> | *@
+                <a href="/Movies/Edit/@item.Id">@BasicRes.Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">@BasicRes.Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+            

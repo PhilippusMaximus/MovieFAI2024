@@ -1,0 +1,51 @@
+﻿@model FAI.Core.Entities.Movies.Movie
+
+@{
+    ViewData["Title"] = BasicRes.Delete;
+}
+
+<h1>@BasicRes.Delete</h1>
+
+<h3>@BasicRes.ConfirmDeleteQuestion</h3>
+<div>
+    <h4>Movie</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @BasicRes.Genre
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Genre.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @BasicRes.MediumType
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MediumType.Code)
+        </dd>
+        <dt class = "col-sm-2">
+            @BasicRes.Title
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @BasicRes.Price
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @BasicRes.ReleaseDate
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value=@BasicRes.Delete class="btn btn-danger" /> |
+        <a asp-action="Index">@BasicRes.BacktoList</a>
+    </form>
+</div>
