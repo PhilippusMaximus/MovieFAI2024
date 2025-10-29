@@ -20,9 +20,11 @@ namespace FAI.Core.Entities.Movies
 
         // [Required]
         [Display(Name = nameof(Price), ResourceType = typeof(BasicRes))]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:N2}")]
         public virtual decimal Price { get; set; }
         
         [Display(Name = nameof(ReleaseDate), ResourceType = typeof(BasicRes))]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public virtual DateTime ReleaseDate { get; set; }
 
         [Display(Name = nameof(Genre), ResourceType = typeof(BasicRes))]

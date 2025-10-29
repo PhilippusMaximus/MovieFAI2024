@@ -9,7 +9,16 @@
 <p>
     @* wird auch im HTML ausgeklammert *@
     @* <a asp-action="Create">@BasicRes.New</a> *@
-    <a href="/Movies/Create" title="@BasicRes.New">@BasicRes.New</a>
+    @* <a href="/Movies/Create" title="@BasicRes.New">@BasicRes.New</a> *@
+
+    <form asp-action="Create">
+        @* AntiForgeryToken wird bei asp-action mit erstellt *@
+        <input class="btn btn-sm btn-dark" type="submit" value="@BasicRes.New" />
+    </form>
+    @* <form method="post" action="\Movies\Create">
+        @Html.AntiForgeryToken()
+        <input class="btn btn-sm btn-dark" type="submit" value="@BasicRes.New" />
+    </form> *@
 
 </p>
 <table class="table">
@@ -52,6 +61,7 @@
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
+                @* asp-action sind razor-engine sachen und werden als html umgewandelt*@
                 @* <a asp-action="Edit" asp-route-id="@item.Id">@BasicRes.Edit</a> | *@
                 <a href="/Movies/Edit/@item.Id">@BasicRes.Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
