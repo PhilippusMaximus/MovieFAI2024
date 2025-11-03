@@ -43,6 +43,15 @@ namespace FAI.MovieWeb
                        .DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("de");
             });
 
+            // Session-Management aktivieren, Cookie-Einstellungen definieren
+            builder.Services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromMinutes(30);
+                option.Cookie.HttpOnly = true;
+                option.Cookie.IsEssential = true;
+                option.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.SameAsRequest;
+            });       
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -64,6 +73,9 @@ namespace FAI.MovieWeb
 
             app.UseAuthorization();
 
+            // Damit Session-Informationen genutzt werden können
+            app.UseSession();
+
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
@@ -74,6 +86,8 @@ namespace FAI.MovieWeb
 
             var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);
+
+            
 
             app.Run();
         }

@@ -11,15 +11,27 @@
     @* <a asp-action="Create">@BasicRes.New</a> *@
     @* <a href="/Movies/Create" title="@BasicRes.New">@BasicRes.New</a> *@
 
-    <form asp-action="Create">
-        @* AntiForgeryToken wird bei asp-action mit erstellt *@
-        <input class="btn btn-sm btn-dark" type="submit" value="@BasicRes.New" />
-    </form>
-    @* <form method="post" action="\Movies\Create">
-        @Html.AntiForgeryToken()
+    @* <form asp-action="Create">
+        @* AntiForgeryToken wird bei asp-action mit erstellt
         <input class="btn btn-sm btn-dark" type="submit" value="@BasicRes.New" />
     </form> *@
-
+    <div class="row">
+        <div class="col-md-1">
+            <form method="post" action="\Movies\Create">
+                @Html.AntiForgeryToken()
+                <input class="btn btn-sm btn-primary" type="submit" value="@BasicRes.New" />
+            </form>
+        </div>
+        <div class="col-md-11">
+            <form class="form-group row" method="get" href="\Movies\Index">
+                <input class="col-md-8" type="text" placeholder="Suche nach Titel" name="searchText"/>
+                <input class="col-md-1" type="text" placeholder="@BasicRes.MediumType" name="mediumTypeCode"/>
+                <input class="col-md-1" type="text" placeholder="Skip" name="skip" />
+                <input class="col-md-1" type="text" placeholder="Take" name="take" />
+                <button type="submit" class="btn btn-sm btn-primary col-md-1" value="@BasicRes.Search"><i class="fa fa-search" aria-hidden="true" title="@BasicRes.Search"></i></button>
+            </form>
+        </div>
+    </div>   
 </p>
 <table class="table">
     <thead>
@@ -63,9 +75,9 @@
             <td>
                 @* asp-action sind razor-engine sachen und werden als html umgewandelt*@
                 @* <a asp-action="Edit" asp-route-id="@item.Id">@BasicRes.Edit</a> | *@
-                <a href="/Movies/Edit/@item.Id">@BasicRes.Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">@BasicRes.Delete</a>
+                <a class="btn btn-sm fa fa-pencil btn-primary" title="@BasicRes.Edit" href="/Movies/Edit/@item.Id"></a> |
+                <a class="btn btn-sm fa fa-info-circle btn-primary" title="Details" asp-action="Details" asp-route-id="@item.Id"></a> |
+                <a class="btn btn-sm fa fa-trash-o btn-danger" title="@BasicRes.Delete" asp-action="Delete" asp-route-id="@item.Id"></a>
             </td>
         </tr>
 }

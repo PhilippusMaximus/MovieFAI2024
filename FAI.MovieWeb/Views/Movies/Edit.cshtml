@@ -40,14 +40,14 @@
                 <span asp-validation-for="MovieDto.MediumTypeCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="@BasicRes.Save" class="btn btn-primary" />
+                <button type="submit" title="@BasicRes.Save" value="@BasicRes.Save" class="btn btn-sm btn-primary fa fa-save" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">@BasicRes.BacktoList</a>
+    <a class="btn btn-sm fa fa-backward btn-primary" title="@BasicRes.BacktoList" asp-action="Index"></a>
 </div>
 
 @section Scripts {

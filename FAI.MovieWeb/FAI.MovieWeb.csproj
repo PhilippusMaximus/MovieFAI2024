@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="cldrjs" Version="0.5.1" />
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="jquery-globalize" Version="1.4.2" />
     <PackageReference Include="jQuery.Validation.Globalize" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.9" />

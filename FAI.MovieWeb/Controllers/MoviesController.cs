@@ -2,8 +2,10 @@
 using FAI.Core.Application.DTOs.Movies;
 using FAI.Core.Application.Services;
 using FAI.Core.Entities.Movies;
+using FAI.MovieWeb.Extensions;
 using FAI.MovieWeb.Models;
 using FAI.Persistence.Repositories.DBContext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace FAI.MovieWeb.Controllers
 {
+    // [Authorize]
     public class MoviesController : Controller
     {
         private readonly MovieDbContext _context;
@@ -89,9 +92,24 @@ namespace FAI.MovieWeb.Controllers
 
         private async Task InitMovieEditModel(MovieEditModel movieModel, CancellationToken cancellationToken)
         {
-            var genres = await this.movieService.GetGenres(cancellationToken);
-            var mediumTypes = await this.movieService.GetMediumTypes(cancellationToken);
+            // Liste wird aus der Session geladen, wenn nicht vorhanden aus dem Service
+            var genres = HttpContext.Session.Get<IEnumerable<Genre>>(nameof(Genre));
 
+            if (genres == null)
+            {
+                genres = await this.movieService.GetGenres(cancellationToken);
+                HttpContext.Session.Set<IEnumerable<Genre>>(nameof(Genre), genres);
+            }
+
+            // Liste wird aus der Session geladen, wenn nicht vorhanden aus dem Service
+            var mediumTypes = HttpContext.Session.Get<IEnumerable<MediumType>>(nameof(MediumType));
+            
+            if (mediumTypes == null)
+            {
+                mediumTypes = await this.movieService.GetMediumTypes(cancellationToken);
+                HttpContext.Session.Set<IEnumerable<MediumType>>(nameof(MediumType), mediumTypes);
+            }
+                        
             movieModel.Genres = new SelectList(genres, "Id", "Name");
             movieModel.MediumTypes = new SelectList(mediumTypes, "Code", "Name");
         }

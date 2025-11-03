@@ -43,6 +43,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">@BasicRes.Edit</a> |
-    <a asp-action="Index">@BasicRes.BacktoList</a>
+    <a class="btn btn-sm fa fa-pencil btn-primary" title="@BasicRes.Edit" asp-action="Edit" asp-route-id="@Model?.Id"></a> |
+    <a class="btn btn-sm fa fa-backward btn-primary" title="@BasicRes.BacktoList" asp-action="Index"></a>
 </div>
