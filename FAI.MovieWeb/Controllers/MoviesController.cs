@@ -26,6 +26,8 @@ namespace FAI.MovieWeb.Controllers
             this.movieService = movieService;
         }
 
+
+
         // GET: Movies
         public async Task<IActionResult> Index([FromQuery] string? searchText,
                                                int? genreId,
@@ -114,29 +116,29 @@ namespace FAI.MovieWeb.Controllers
         //}
 
         // GET: Movies/Edit
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Edit([FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            var movieDto = await this.movieService.GetMovieDtoById(id, CancellationToken.None);
 
-        //    var movie = await _context.Movies.FindAsync(id);
-        //    if (movie == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name", movie.GenreId);
-        //    ViewData["MediumTypeCode"] = new SelectList(_context.MediumTypes, "Code", "Code", movie.MediumTypeCode);
-        //    return View(movie);
-        //}
+            if (movieDto == null)
+            {
+                return NotFound();
+            }
+
+            var movieModel = new MovieEditModel();
+            movieModel.MovieDto = movieDto;
+
+            await this.InitMovieEditModel(movieModel, cancellationToken);
+
+            return View(movieModel);
+        }
 
         // POST: Movies/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute] Guid id, [FromForm] MovieDto movieDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit([FromRoute] Guid id, MovieDto movieDto, CancellationToken cancellationToken)
         {
             movieDto.Id = id;
 
@@ -144,12 +146,14 @@ namespace FAI.MovieWeb.Controllers
             {
                 return NotFound();
             }
-                                   
+
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var updmovieDto = await this.movieService.UpdateMovieDto(movieDto, CancellationToken.None);
+                    var updMovieDto = await this.movieService.UpdateMovieDto(movieDto, CancellationToken.None);
+
                 }
                 catch
                 {
@@ -162,48 +166,36 @@ namespace FAI.MovieWeb.Controllers
             movieModel.MovieDto = movieDto;
 
             await this.InitMovieEditModel(movieModel, cancellationToken);
-                       
+
             return View(movieModel);
         }
 
         // GET: Movies/Delete
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellation)
         {
-            if (id == null)
+            var movieDto = await this.movieService.GetMovieDtoById(id, cancellation);
+
+            if (movieDto == null)
             {
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .Include(m => m.Genre)
-                .Include(m => m.MediumType)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return View(movie);
+            return View(movieDto);
         }
 
         // POST: Movies/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken)
         {
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie != null)
-            {
-                _context.Movies.Remove(movie);
-            }
+            await this.movieService.DeleteMovie(id, cancellationToken);
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MovieExists(Guid id)
-        {
-            return _context.Movies.Any(e => e.Id == id);
-        }
+        //private bool MovieExists(Guid id)
+        //{
+        //    return _context.Movies.Any(e => e.Id == id);
+        //}
     }
 }

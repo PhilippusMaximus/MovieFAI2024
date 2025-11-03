@@ -1,7 +1,8 @@
-﻿@model FAI.Core.Entities.Movies.Movie
+﻿@model MovieDto
 
 @{
     ViewData["Title"] = BasicRes.Delete;
+    ViewData["LocaleName"] = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
 }
 
 <h1>@BasicRes.Delete</h1>
@@ -15,13 +16,13 @@
             @BasicRes.Genre
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre.Name)
+            @Html.DisplayFor(model => model.GenreName)
         </dd>
         <dt class = "col-sm-2">
             @BasicRes.MediumType
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MediumType.Code)
+            @Html.DisplayFor(model => model.MediumTypeCode)
         </dd>
         <dt class = "col-sm-2">
             @BasicRes.Title

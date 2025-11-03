@@ -14,7 +14,7 @@ namespace FAI.Core.Entities.Movies
         public virtual Guid Id { get; set; }
 
         [MaxLength(128), MinLength(1)]
-        [Required]
+        //[Required(ErrorMessageResourceName = "Err_IsRequired", ErrorMessageResourceType = typeof(BasicRes))]
         [Display(Name = nameof(Title), ResourceType = typeof(BasicRes))]
         public virtual string Title { get; set; } = string.Empty;
 
@@ -24,7 +24,7 @@ namespace FAI.Core.Entities.Movies
         public virtual decimal Price { get; set; }
         
         [Display(Name = nameof(ReleaseDate), ResourceType = typeof(BasicRes))]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public virtual DateTime ReleaseDate { get; set; }
 
         [Display(Name = nameof(Genre), ResourceType = typeof(BasicRes))]

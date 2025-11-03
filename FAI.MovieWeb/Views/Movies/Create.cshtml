@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = BasicRes.New;
+    ViewData["LocaleName"] = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
 }
 
 <h1>@BasicRes.New</h1>
@@ -13,6 +14,7 @@
     <div class="col-md-4">
         <form asp-action="Edit" asp-route-id="@Model.MovieDto.Id" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="Id" asp-for="MovieDto.Id" />
             <div class="form-group">
                 <label asp-for="MovieDto.Title" class="control-label"></label>
                 <input asp-for="MovieDto.Title" class="form-control" />
